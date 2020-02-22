@@ -1,0 +1,57 @@
+name: 'upload-to-bintray-github-action'
+description: 'Upload files to JFrog Bintray'
+branding:
+  icon: 'upload'
+  color: 'green'
+inputs:
+  source_path:
+    description: 'Path to the file that should be uploaded'
+    required: true
+  api_url:
+    description: 'URL of the Bintray API server'
+    required: false
+    default: 'https://api.bintray.com'
+  api_user:
+    description: 'Username for API usage'
+    required: true
+  api_key:
+    description: 'Key for API usage, it can be obtained from the user profile page'
+    required: true
+  repository:
+    description: 'Name of the repository'
+    required: true
+  package:
+    description: 'Name of the package'
+    required: true
+  version:
+    description: 'Version of the package'
+    required: true
+  upload_path:
+    description: 'Upload path at Bintray site. Some repository layouts require this. Does not need leading or trailing slashes.'
+    required: false
+    default: '/'
+  publish:
+    description: 'Whether to publish the package right away, use "true" to enable'
+    required: false
+    default: 'false'
+  explode:
+    description: 'Whether to explode archive, use "1" to enable'
+    required: false
+    default: '0'
+  override:
+    description: 'Whether to override, use "1" to enable'
+    required: false
+    default: '0'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.repository }}
+    - ${{ inputs.package }}
+    - ${{ inputs.version }}
+    - ${{ inputs.source_path }}
+    - ${{ inputs.upload_path }}
+    - ${{ inputs.explode }}
+    - ${{ inputs.override }}
+    - ${{ inputs.publish }}
